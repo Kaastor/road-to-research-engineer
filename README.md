@@ -1,4 +1,4 @@
-# road-to-research-engineer (pruned)
+# road-to-research-engineer
 
 **Legend:** **\[Must]** = core for the role • **\[Strong]** = highly valuable • **\[Awareness]** = be able to discuss/triage
 
