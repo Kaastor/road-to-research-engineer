@@ -1,7 +1,7 @@
 ## Project List Overview
 The following projects are designed to cover **all** skills from your skill list through hands-on implementation. There are 12 projects, prioritized to build progressively while showing overlaps (e.g., data curation in Project 1 feeds into training in Project 3; evaluation metrics from Project 2 recur in later ones). Early projects focus on foundations, mid ones on training/evaluation, and later on deployment/optimization. Each project references overlapping skills from prior ones without redundancy. Complete them in order for best learning, but they can be done modularly.
 ### Project 1: Data Curation Pipeline for SLM Pretraining
-**Description:** Build a pipeline to collect, clean, deduplicate, and prepare a small high-quality dataset (e.g., 1-5GB of text from public sources like Wikipedia excerpts) for SLM pretraining, including provenance tracking and bias audits.
+**Description:** Build a pipeline to collect, clean, deduplicate, and prepare a small high-quality dataset (e.g., 1-5GB of text from public sources like Wikipedia excerpts) for SLM pretraining, including provenance tracking and bias audits. Use methods like those in the RedPajama dataset (e.g., fuzzy deduplication via MinHash LSH) for cleaning.
 **Skills Learned:**
 - **Python mastery (write idiomatic, maintainable code; vectorize; profile hotspots; respect interfaces and typing; optimize CPU paths like tokenization/mmap iterators and fast I/O).**
 - Curation & quality (collect/label, dedupe, filter, audit for bias; provenance; dense high-quality sources; de-dup synthetic data; per-generator safety filters).
@@ -19,7 +19,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Commit to Git with proper structure.
 **Dependencies:** Hugging Face Datasets, text-dedup (MinHash/LSH), ftfy, langdetect, sentencepiece, Git, uv (for env pinning).
 ### Project 2: Simple SLM Evaluation Harness
-**Description:** Create a local evaluation tool to test small models on benchmarks like GSM8K-mini and HellaSwag, including custom metrics and plots.
+**Description:** Create a local evaluation tool to test small models on benchmarks like GSM8K-mini and HellaSwag, including custom metrics and plots. Incorporate evaluation protocols from papers like "Evaluating Large Language Models Trained on Code" (for HumanEval) and "HellaSwag: Can a Machine Really Finish Your Sentence?" for metric computation.
 **Skills Learned:**
 - Paper → code & reproduction (turn papers into code; match results; document gaps).
 - Baselines & ablations (establish baselines; change one thing; report CIs; fix compute budget; track tokens/param and loss vs tokens).
@@ -38,7 +38,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Document baselines in a report.
 **Dependencies:** lm-eval-harness, polars, Matplotlib, sklearn.metrics, wordfreq/textstat, StatsModels, NumPy/SciPy, torchmetrics.
 ### Project 3: Train a Tiny SLM from Scratch
-**Description:** Pretrain a ≤100M parameter SLM on your curated dataset from Project 1, using a simple architecture like downscaled Transformer with RMSNorm.
+**Description:** Pretrain a ≤100M parameter SLM on your curated dataset from Project 1, using a simple architecture like downscaled Transformer with RMSNorm. Base the architecture on the GPT-2 paper ("Language Models are Unsupervised Multitask Learners") but downscaled with RMSNorm from "Root Mean Square Layer Normalization" and RoPE from "RoFormer: Enhanced Transformer with Rotary Position Embedding".
 **Skills Learned:**
 - Foundations (LA/Stats/Opt) (matrix calculus; distributions; estimation; optimization; small-compute scaling; RMSNorm; RoPE θ-scaling; μP/μTransfer awareness; regularization like label smoothing/dropout).
 - **Deep learning stacks (be fluent in PyTorch; working familiarity with JAX/Flax for reading/porting code; target single-GPU/CPU and edge runtimes).**
@@ -56,7 +56,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Ablate one hyperparam (e.g., dropout) with CIs.
 **Dependencies:** PyTorch + Accelerate, NumPy + SciPy, safetensors, μP/μTransfer (for simulation), W&B (tracking).
 ### Project 4: Distill a 300M SLM from a Teacher
-**Description:** Distill knowledge from a 7B teacher model (e.g., open-source like Llama-7B) into a 300M student using token/logit distillation on a subset of data from Project 1.
+**Description:** Distill knowledge from a 7B teacher model (e.g., open-source like Llama-7B) into a 300M student using token/logit distillation on a subset of data from Project 1. Follow methods from "Distilling the Knowledge in a Neural Network" (Hinton et al.) and "MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers" for logit-based distillation.
 **Skills Learned:**
 - Paper → code & reproduction (SLM focus: distillation/quantization; tiny baselines ≤300M).
 - Distillation recipes (token/logit distill; short-rationale for reasoning; DPO with small RMs; verify-then-generate).
@@ -71,7 +71,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Document gaps in reproduction.
 **Dependencies:** Hugging Face Transformers/Datasets, LoRA (PEFT), PyTorch, lm-eval-harness, Optuna (sweeps).
 ### Project 5: Build a RAG System for Q&A
-**Description:** Create an end-to-end RAG pipeline using your distilled model from Project 4, with retrieval over a knowledge base (e.g., Wikipedia chunks), reranking, and structured outputs.
+**Description:** Create an end-to-end RAG pipeline using your distilled model from Project 4, with retrieval over a knowledge base (e.g., Wikipedia chunks), reranking, and structured outputs. Use embedding models like BGE-small from "C-Pack: Packaged Resources To Advance General Chinese Embedding" and reranking from BGE-reranker-base, with evaluation inspired by BEIR benchmark ("BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models").
 **Skills Learned:**
 - Retrieval, embeddings & reranking (treat retrieval as first-class; FAISS; bge-small retriever; bge-reranker-base).
 - RAG-first design (small model + strong retrieval; concise prompts; admit uncertainty).
@@ -87,7 +87,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Measure latency.
 **Dependencies:** FAISS, Hugging Face Transformers (for bge models), Outlines (grammar-based decoding), Pydantic v2 (JSON Schema), lm-eval-harness.
 ### Project 6: Agentic Workflow for Task Planning
-**Description:** Build a simple agent using your RAG model from Project 5 that chains tools (e.g., calculator, search) with planning and scratchpad for multi-step tasks like math problems.
+**Description:** Build a simple agent using your RAG model from Project 5 that chains tools (e.g., calculator, search) with planning and scratchpad for multi-step tasks like math problems. Implement ReAct-style reasoning from the "ReAct: Synergizing Reasoning and Acting in Language Models" paper.
 **Skills Learned:**
 - Agentic patterns (planning; tool chaining; scratchpad; even for SLMs).
 - Structured I/O integration (enforce JSON/typed outputs; schema-first prompts; function calling).
@@ -99,7 +99,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Log traces.
 **Dependencies:** LangGraph (ReAct traces & planners), Pydantic v2, Outlines.
 ### Project 7: Optimize and Compress the SLM
-**Description:** Apply compression to your 300M model from Project 4, including quantization and pruning, then re-evaluate.
+**Description:** Apply compression to your 300M model from Project 4, including quantization and pruning, then re-evaluate. Use quantization-aware training (QAT) methods from "Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference" and structured pruning like 2:4 sparsity from "SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Shot".
 **Skills Learned:**
 - Smaller/faster with minimal loss (quantization/distillation/pruning; tradeoffs; pipeline: Distill → LoRA → INT4 → sparsity → KV quant).
 - Throughput & memory (mixed precision; memory-saving; train bf16/fp16; infer INT4/8; KV-cache quant/paging).
@@ -111,7 +111,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Measure memory/latency before/after.
 **Dependencies:** AutoAWQ (INT4), PyTorch (for sparsity), gradient checkpointing/accumulation.
 ### Project 8: Distributed Training for 1B SLM
-**Description:** Scale training of a 1B model (built on Project 3) across 2+ GPUs, using data from Project 1.
+**Description:** Scale training of a 1B model (built on Project 3) across 2+ GPUs, using data from Project 1. Employ Fully Sharded Data Parallelism (FSDP) as described in "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models" (ZeRO-2/3 variants).
 **Skills Learned:**
 - Distributed training (scale GPUs/nodes; communication; memory partitioning; FSDP ZeRO-2/3 >2B; CPU offload).
 - Parallelism strategies (data/tensor/pipeline; shard states/checkpoints; avoid pipeline; grad checkpointing + accumulation).
@@ -123,7 +123,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Monitor with nvidia-smi.
 **Dependencies:** PyTorch FSDP (NCCL), nvidia-smi, numactl, iostat.
 ### Project 9: Inference Serving API
-**Description:** Deploy your compressed model from Project 7 as a low-latency API with batching and streaming.
+**Description:** Deploy your compressed model from Project 7 as a low-latency API with batching and streaming. Use vLLM for efficient serving, incorporating techniques like PagedAttention from "Efficient Memory Management for Large Language Model Serving with PagedAttention".
 **Skills Learned:**
 - Prototype APIs (low-latency inference; batching/streaming; CPU-first; speculative decoding).
 - LLM serving essentials (long-context decoding; KV caches; sliding-window; paged KV; vLLM for server).
@@ -135,7 +135,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Export to ONNX for edge.
 **Dependencies:** FastAPI + Uvicorn, vLLM, ONNX + ONNX Runtime, tiktoken, llama.cpp (gguf for edge).
 ### Project 10: Experiment Management and Reproducibility Suite
-**Description:** Wrap prior projects (e.g., training from Project 8) with full tracking, sweeps, and reproducibility tools.
+**Description:** Wrap prior projects (e.g., training from Project 8) with full tracking, sweeps, and reproducibility tools. Use hyperparameter optimization from "Optuna: A Next-generation Hyperparameter Optimization Framework" for sweeps.
 **Skills Learned:**
 - Tracking & sweeps (centralize metrics/artifacts/configs; automate HPO; log tokens/batch/LR/teacher).
 - Reproducibility & experiment management (determinism; seeding; env pinning; W&B Artifacts; Git tags; release hygiene with Model/Data Cards).
@@ -148,7 +148,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Set up CI.
 **Dependencies:** Weights & Biases + Optuna, Hydra (configs), pytest, coverage.py, GitHub Actions, Docker.
 ### Project 11: Fault-Tolerant Orchestration on Cluster
-**Description:** Run distributed training from Project 8 on a cluster with preemption handling and observability.
+**Description:** Run distributed training from Project 8 on a cluster with preemption handling and observability. Handle fault tolerance using techniques from TorchElastic, inspired by "Elastic Training of Deep Learning Models on Cloud Platforms".
 **Skills Learned:**
 - Schedulers & clusters (launch/manage jobs; quotas; spot GPUs; shard by data; frequent checkpoints).
 - Fault tolerance & elastic workflows (preemption/failure; resume by token; object-store checkpoints; idempotent steps; SIGTERM handlers).
@@ -162,7 +162,7 @@ The following projects are designed to cover **all** skills from your skill list
 - Roll out with canaries.
 **Dependencies:** SLURM, TorchElastic, Prometheus, Grafana, OpenTelemetry, structlog, pybreaker, tenacity, Argo Rollouts + Argo CD.
 ### Project 12: Full Portfolio Demo with Security and Cost Tracking
-**Description:** Integrate a RAG-agent from Projects 5-6, served via Project 9, with security, cost tracking, and interpretability probes; release as a complete app.
+**Description:** Integrate a RAG-agent from Projects 5-6, served via Project 9, with security, cost tracking, and interpretability probes; release as a complete app. Incorporate interpretability via logit lens from "Interpreting Language Models with Logit Lens" and security checks from "Red Teaming Language Models with Language Models".
 **Skills Learned:**
 - Profiling & kernels (find bottlenecks; optimize decode; CPU thread pools; fused-attention).
 - Sequence-length scaling (RoPE θ/NTK; attention sinks; LongBench awareness).
